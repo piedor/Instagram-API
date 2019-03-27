@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>demo1Instagram-api</title>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id="app">
+        <script src="/dist/build.js"></script>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center text-titolo" id="titoloIniziale">  
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="col text-center text-titolo" id="informazioni">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <div id="imgProfilo"></div>
+                </div>
+                <div class="col">
+                    <div class="col" id="informazioniAccount">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="col text-center text-titolo" id="postRecenti">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <div id="containerPostRecenti"></div>
+                </div>
+            </div>
+
+            <!-- creazione di un modal -->
+            <div class="modal fade" id="modal1" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Accedi a Instagram</h3>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h4>Per continuare è necessario loggarsi a Instagram</h4>
+                            <a href="https://www.instagram.com/oauth/authorize/?client_id=434de32ddd604865a4684abbe2eb60b2&redirect_uri=http://127.0.0.1:3000&response_type=token">
+                                <img src="https://www.leveragedigitalmedia.com/wp-content/uploads/2016/09/instagram-1581266_1920.jpg" width="30%" height="80%" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        // variabili
+        var url = window.location.toString();
+        var token = "";
+        var titoloIniziale = document.getElementById("titoloIniziale");
+        var informazioni = document.getElementById("informazioni");
+        var imgProfilo = document.getElementById("imgProfilo");
+        var informazioniAccount = document.getElementById("informazioniAccount");
+        var containerPostRecenti = document.getElementById("containerPostRecenti");
+        var postRecenti = document.getElementById("postRecenti");
+
+        // metodi
+
+        // prelevare informazioni account
+        getInformationUser = function(){
+            scrElement = document.createElement( 'script' );
+            scrElement.setAttribute( 'src', 'https://api.instagram.com/v1/users/self?access_token=' + token + '&callback=processInformation' );
+            document.body.appendChild( scrElement );
+        }
+    
+        processInformation = function( response ) { 
+            titoloIniziale.innerHTML = '<h2><b>Benvenuto ' + response.data.full_name + '</b></h2>';
+            informazioni.innerHTML = '<h3>Informazioni sul tuo account</h3>';
+            imgProfilo.innerHTML = '<div><p><img src="' + response.data.profile_picture + '" width ="30%" height = "30%"></p></div>';
+            var bio = "", website = "", url = "";
+
+            if(!(response.data.bio).toString()){
+                bio = "Non hai una biografia";
+            }
+            else{
+                bio = response.data.bio;
+            }
+
+            if(!(response.data.website).toString()){
+                website = "Non hai un sito web";
+                url = "#nothing"
+            }
+            else{
+                website = response.data.website;
+                url = website;
+            }
+
+            informazioniAccount.innerHTML = '<div><h4><b>Il tuo username è: </b>' + response.data.username + '</br>'
+                + '<b>Il tuo instagram id è:</b> #' + response.data.id + '</br>'
+                + '<b>Hai ' + response.data.counts.media + ' media</br>Hai ' + response.data.counts.followed_by + ' followers</br>Hai ' + response.data.counts.follows + ' follows</b></br>'
+                + '<b>Il tuo nome completo è:</b> ' + response.data.full_name + '</br><b>La tua bibiografia è: </b>' + bio + '<b></br>Il tuo sito web è:</b> <a href="' + url + '">' + website + '</a><br>'
+                + '<b>E\' un business account:</b> ' + response.data.is_business + '</h4></div>';
+        }
+
+        // prelevare 20 post recenti
+        getPostRecenti = function(){
+            var num_photos = 20;
+            scrElement = document.createElement( 'script' );
+            scrElement.setAttribute( 'src', 'https://api.instagram.com/v1/users/self/media/recent?access_token=' + token + '&count=' + num_photos + '&callback=processPostRecenti' );
+            document.body.appendChild( scrElement );
+        }
+
+        processPostRecenti = function( response ){
+            if(response.data.length > 0){
+                for(var i=0;i<response.data.length;i+=4){
+                    containerPostRecenti.innerHTML += '<div class="row"><div class="col"><img src="' + response.data[i].images.low_resolution.url + '" width="60%" height="60%"></div>'
+                    + '<div class="col"><img src="' + response.data[i+1].images.low_resolution.url + '" width="60%" height="60%"></div>'
+                    + '<div class="col"><img src="' + response.data[i+2].images.low_resolution.url + '" width="60%" height="60%"></div>'
+                    + '<div class="col"><img src="' + response.data[i+3].images.low_resolution.url + '" width="60%" height="60%"></div></div>';
+                }
+            }
+            else{
+                containerPostRecenti.innerHTML = "<h4>Non hai alcun post sul tuo account</h4>"
+            }
+            postRecenti.innerHTML ='<h3>' + response.data.length + ' post più recenti del tuo account</h3></br>'
+        }
+
+        // codice
+        if(url.indexOf("access_token") !== -1){
+            token = url.split('=')[1];
+            getInformationUser();
+            getPostRecenti();
+        }
+        else{
+            $('#modal1').modal({backdrop: 'static'});
+        }
+    </script>
+
+    <style>
+        .text-titolo{
+            color: darkgreen;
+            font-family: 'Times New Roman', Times, serif;
+        }
+    </style>
+  </body>
