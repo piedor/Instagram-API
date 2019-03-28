@@ -29,7 +29,9 @@ Di solito vengono usate dalle applicazioni web e per smartphone grazie ai lingua
 
 1. Prelevare i dati dell'account loggato che sono: id, username, foto profilo, nome completo, descrizione tra qui: biografia, sito web, è un account business o no, e numero di followers, follows, media (foto e video).
 
-2. Prelevare i post più recenti dall'account (max 20)
+2. Prelevare i post più recenti dall'account (max 20) è possibile scegliere la dimensione dell'immagine o del video tra thumbnail, low resolution e standard resolution
+
+3. Per ogni post è possibile prelevare diverse informazioni che sono: data di caricamento, didascalia, se l'utente ha messo like, numero di like, lista di hashtag (se ci sono), filtro usato, numero di commenti, tipo di post(video, immagine, carousel), posizione e lista utenti taggati
 
 ## Codice
 
