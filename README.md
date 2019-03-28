@@ -9,3 +9,5 @@ A partire dall'11 dicembre 2018 con le instagram api ufficiali di instagram è p
 * visualizzare i dati statistici dell'account e i contenuti multimediali di account aziendali pubblici
 
 * esplorare video e foto di un account pubblico
+
+si deve passare alle instagram graph api di facebook
