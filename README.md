@@ -10,4 +10,4 @@ A partire dall'11 dicembre 2018 con le instagram api ufficiali di instagram è p
 
 * esplorare video e foto di un account pubblico
 
-si deve passare alle instagram graph api di facebook
+si deve passare alle instagram graph api di facebook.
