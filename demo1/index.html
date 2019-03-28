@@ -16,34 +16,20 @@
         <script src="/dist/build.js"></script>
         <div class="container">
             <div class="row">
-                <div class="col text-center text-titolo" id="titoloIniziale">  
-                </div>
+                <div class="col text-center text-titolo" id="titoloIniziale"></div>
             </div>
             <div class="row">
-                <div class="col">
-                    <div class="col text-center text-titolo" id="informazioni">
-                    </div>
-                </div>
+                <div class="col text-center text-titolo" id="informazioni"></div>
             </div>
             <div class="row">
-                <div class="col text-center">
-                    <div id="imgProfilo"></div>
-                </div>
-                <div class="col">
-                    <div class="col" id="informazioniAccount">
-                    </div>
-                </div>
+                <div class="col text-center" id="imgProfilo"></div>
+                <div class="col" id="informazioniAccount"></div>
             </div>
             <div class="row">
-                <div class="col">
-                    <div class="col text-center text-titolo" id="postRecenti">
-                    </div>
-                </div>
+                <div class="col text-center text-titolo" id="postRecenti"></div>
             </div>
             <div class="row">
-                <div class="col text-center">
-                    <div id="containerPostRecenti"></div>
-                </div>
+                <div class="col text-center" id="containerPostRecenti"></div>
             </div>
 
             <!-- creazione di un modal -->
@@ -124,17 +110,131 @@
 
         processPostRecenti = function( response ){
             if(response.data.length > 0){
+                containerPostRecenti.innerHTML = '';
                 for(var i=0;i<response.data.length;i+=4){
-                    containerPostRecenti.innerHTML += '<div class="row"><div class="col"><img src="' + response.data[i].images.low_resolution.url + '" width="60%" height="60%"></div>'
-                    + '<div class="col"><img src="' + response.data[i+1].images.low_resolution.url + '" width="60%" height="60%"></div>'
-                    + '<div class="col"><img src="' + response.data[i+2].images.low_resolution.url + '" width="60%" height="60%"></div>'
-                    + '<div class="col"><img src="' + response.data[i+3].images.low_resolution.url + '" width="60%" height="60%"></div></div>';
+                    console.log(Object.keys(response.data[i]));
+                    var date;
+                    var url1, url2, url3, url4;
+                    var str = ''
+                    str += '<div class="row">';
+                    try{
+                        if(response.data[i].type === 'image' || response.data[i].type === 'carousel')
+                        {
+                            str += '<div class="col"><img src="' + response.data[i].images.low_resolution.url + '" width="50%" height="50%"/>';
+                        }
+                        else if(response.data[i].type === 'video'){
+                            str += '<div class="col"><video width="60%" controls><source src="' + response.data[i].videos.low_resolution.url + '" type="video/mp4"></video>';
+                        }
+
+                        // data immagine
+                        date = new Date(response.data[i].created_time * 1000);
+
+                        str += '<h6><b>Data:</b> ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' '
+                             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '')
+                             + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + "</h6>";
+
+                        // didascalia immagine
+                        if(response.data[i].caption !== null){
+                            str += '<h6><b>Didascalia:</b> ' + (response.data[i].caption.text.length < 20 ? response.data[i].caption.text : response.data[i].caption.text.slice(0, 21) + '...')  +'</h6>';
+                        }
+
+                        str += '<h6><b>Utente ha messo like:</b> ' + response.data[i].user_has_liked +'</h6>';
+                        str += '<h6><b>Numero di like:</b> ' + response.data[i].likes.count +'</h6>';
+                        str += '<h6><b>Hashtags:</b> ' + (Object.keys(response.data[i].tags).length > 0 ? response.data[i].tags : 'Nessuno') +'</h6>';
+                        str += '<h6><b>Numero di commenti:</b> ' + response.data[i].comments.count +'</h6>';
+                        str += '</div>';
+                    }
+                    catch{
+                    }
+                    try{
+                        if(response.data[i+1].type === 'image' || response.data[i+1].type === 'carousel'){
+                            str += '<div class="col"><img src="' + response.data[i+1].images.low_resolution.url + '" width="50%" height="50%"/>';
+                        }
+                        else if(response.data[i+1].type === 'video'){
+                            str += '<div class="col"><video width="60%" controls><source src="' + response.data[i+1].videos.low_resolution.url + '" type="video/mp4"></video>';
+                        }
+                        // data immagine
+                        date = new Date(response.data[i+1].created_time * 1000);
+
+                        str += '<h6><b>Data:</b> ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' '
+                             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '')
+                             + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + "</h6>";
+
+                        // didascalia immagine
+                        if(response.data[i+1].caption !== null){
+                            str += '<h6><b>Didascalia:</b> ' + (response.data[i+1].caption.text.length < 20 ? response.data[i+1].caption.text : response.data[i+1].caption.text.slice(0, 21) + '...')  +'</h6>';
+                        }
+
+                        str += '<h6><b>Utente ha messo like:</b> ' + response.data[i+1].user_has_liked +'</h6>';
+                        str += '<h6><b>Numero di like:</b> ' + response.data[i+1].likes.count +'</h6>';
+                        str += '<h6><b>Hashtags:</b> ' + (Object.keys(response.data[i+1].tags).length > 0 ? response.data[i+1].tags : 'Nessuno') +'</h6>';
+                        str += '<h6><b>Numero di commenti:</b> ' + response.data[i+1].comments.count +'</h6>';
+                        str += '</div>';
+                    }
+                    catch{
+                    }
+                    try{
+                        if(response.data[i+2].type === 'image' || response.data[i+2].type === 'carousel'){
+                            str += '<div class="col"><img src="' + response.data[i+2].images.low_resolution.url + '" width="50%" height="50%"/>';
+                        }
+                        else if(response.data[i+2].type === 'video'){
+                            str += '<div class="col"><video width="60%" controls><source src="' + response.data[i+2].videos.low_resolution.url + '" type="video/mp4"></video>';
+                        }
+                        // data immagine
+                        date = new Date(response.data[i+2].created_time * 1000);
+
+                        str += '<h6><b>Data:</b> ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' '
+                             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '')
+                             + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + '</h6>';
+
+                        // didascalia immagine
+                        if(response.data[i+2].caption !== null){
+                            str += '<h6><b>Didascalia:</b> ' + (response.data[i+2].caption.text.length < 20 ? response.data[i+2].caption.text : response.data[i+2].caption.text.slice(0, 21) + '...')  +'</h6>';
+                        }
+                        
+                        str += '<h6><b>Utente ha messo like:</b> ' + response.data[i+2].user_has_liked +'</h6>';
+                        str += '<h6><b>Numero di like:</b> ' + response.data[i+2].likes.count +'</h6>';
+                        str += '<h6><b>Hashtags:</b> ' + (Object.keys(response.data[i+2].tags).length > 0 ? response.data[i+2].tags : 'Nessuno') +'</h6>';
+                        str += '<h6><b>Numero di commenti:</b> ' + response.data[i+2].comments.count +'</h6>';
+                        str += '</div>';
+                    }
+                    catch{
+                    }
+                    try{
+                        if(response.data[i+3].type === 'image' || response.data[i+3].type === 'carousel'){
+                            str += '<div class="col"><img src="' + response.data[i+3].images.low_resolution.url + '" width="50%" height="50%"/>';
+                        }
+                        else if(response.data[i+3].type === 'video'){
+                            str += '<div class="col"><video width="60%" controls><source src="' + response.data[i+3].videos.low_resolution.url + '" type="video/mp4"></video>';
+                        }
+                        // data immagine
+                        date = new Date(response.data[i+3].created_time * 1000);
+
+                        str += '<h6><b>Data:</b> ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' '
+                             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '')
+                             + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + '</h6>';
+
+                        // didascalia immagine
+                        if(response.data[i+3].caption !== null){
+                            str += '<h6><b>Didascalia:</b> ' + (response.data[i+3].caption.text.length < 20 ? response.data[i+3].caption.text : response.data[i+3].caption.text.slice(0, 21) + '...')  +'</h6>';
+                        }
+                        
+                        str += '<h6><b>Utente ha messo like:</b> ' + response.data[i+3].user_has_liked +'</h6>';
+                        str += '<h6><b>Numero di like:</b> ' + response.data[i+3].likes.count +'</h6>';
+                        str += '<h6><b>Hashtags:</b> ' + (Object.keys(response.data[i+3].tags).length > 0 ? response.data[i+3].tags : 'Nessuno') +'</h6>';
+                        str += '<h6><b>Numero di commenti:</b> ' + response.data[i+3].comments.count +'</h6>';
+                        str += '</div>';
+                    }
+                    catch{
+                    }
+                    str += '</div></br>';
+                    containerPostRecenti.innerHTML += str;
                 }
             }
             else{
                 containerPostRecenti.innerHTML = "<h4>Non hai alcun post sul tuo account</h4>"
             }
-            postRecenti.innerHTML ='<h3>' + response.data.length + ' post più recenti del tuo account</h3></br>'
+            postRecenti.innerHTML ='<h3>' + response.data.length + ' post recenti del tuo account</h3></br>'
         }
 
         // codice
