@@ -23,7 +23,11 @@ Di solito vengono usate dalle applicazioni web e per smartphone grazie ai lingua
 
     4. Nell'url è stato aggiunto #access_token=[token] dove token è la chiave per poter accedere all'account di instagram dell'utente.
 
-4. Per usufruire delle funzionalità delle API basterà far connettere l'applicazione al sito: https://api.instagram.com/v1/users/self?access_token=[TOKEN] e sostituire TOKEN con il token generato.
+4. In base alla funzionalità richieste bisogna far connettere l'applicazione ai siti elencati sotto sostituendo [TOKEN] con il proprio token, i quali risponderanno con i dati con un testo di tipo **json**:
+
+* **https://api.instagram.com/v1/users/self?access_token=[TOKEN]**: permette di ricevere informazioni sull'account.
+
+* **https://api.instagram.com/v1/users/self/media/recent?access_token=[TOKEN]&count=20**: permette di ricevere 20 post (max 20) più recenti assieme a diverse informazioni per ognuno.
 
 ## Funzionalità
 
