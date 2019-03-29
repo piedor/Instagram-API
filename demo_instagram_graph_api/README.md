@@ -1,0 +1,3 @@
+# Instagram graph Api
+
+Le Instagram graph Api sono molto più complesse di quelle ufficiali di instagram infatti non è possibile provarle direttamente sull'applicazione ma bisogna utilizzare il [tool di esplorazione delle graph api](https://developers.facebook.com/tools/explorer/) per implementare l'applicazione e inviarla per un'analisi al sito per developer di facebook entarndo così in possesso dei permessi.
