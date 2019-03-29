@@ -55,4 +55,8 @@ Per quanto riguarda il secondo problema esistono 2 soluzioni:
 
 2. Utilizzare un sito che abbia i permessi e fargli accedere l'utente per poi prelevare il token.
 
+## News
+
+E' possibile semplificare l'applicazione utilizzando un plugin in javascript: [instafeed](http://instafeedjs.com/)
+
 
