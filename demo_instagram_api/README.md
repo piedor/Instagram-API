@@ -29,6 +29,8 @@ Di solito vengono usate dalle applicazioni web e per smartphone grazie ai lingua
 
 * **https://api.instagram.com/v1/users/self/media/recent?access_token=[TOKEN]&count=20**: permette di ricevere 20 post (max 20) più recenti assieme a diverse informazioni per ognuno.
 
+* **https://api.instagram.com/v1/media/[media-id]/comments?access_token=[TOKEN]**: dove [media-id] è l'id di un post dell'utente e permette di ricevere una lista dei commenti più recenti di quel post.
+
 ## Funzionalità
 
 1. Prelevare i dati dell'account loggato che sono: id, username, foto profilo, nome completo, descrizione tra qui: biografia, sito web, è un account business o no, e numero di followers, follows, media (foto e video).
