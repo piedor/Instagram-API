@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>instagram_widget_d40</title>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id="app">
+        <div class="jumbotron jumbo-style .jumbotron-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col" id="informazioni">
+                    </div>
+                    <div class="col" id="containerFoto">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var url;
+        var informazioni = document.getElementById("informazioni");
+        var containerFoto = document.getElementById("containerFoto");
+
+        displayContenutiFirst = function(){
+            informazioni.innerHTML = '<h3>Comincia subito!</h3><hr class="my-4"><p>Instagram</p>';
+            containerFoto.innerHTML = '<p class="text-right"><a class="btn btn-primary btn-lg" role="button" onclick="openWindowAccessInstagram()">'
+                + 'Scegli le immagini</a></p>';
+        }
+
+        displayContenutiLogged = function(){
+            informazioni.innerHTML = "benvenuto " + localStorage.getItem("token");
+            containerFoto.innerHTML = '';
+        }
+
+        openWindowAccessInstagram = function(){
+            var w = 300;
+            var h = 300;
+            var left = (screen.width/2)-(w/2);
+            var top = (screen.height/2)-(h/2);
+            window.open('https://www.instagram.com/oauth/authorize/?client_id=434de32ddd604865a4684abbe2eb60b2&redirect_uri=http://127.0.0.1:3000&response_type=token', 
+            '_blank', 'width=' + w + ',height=' + h + ', top='+top+', left='+left);
+        }
+
+        // start code
+
+        if(localStorage.getItem("token") === null){
+            // Non è memorizzato alcun token
+            displayContenutiFirst();
+
+            url = window.location.hash.split('=');
+            if(url[1] !== undefined){
+                // L'utente ha effettuato l'accesso, memorizzo il token e chiudo la finestra per l'accesso a instagram
+                localStorage.setItem("token", url[1]);
+                window.opener.location.reload();
+                window.close();
+            }
+        }
+        else{
+            // E' memorizzato un token
+            displayContenutiLogged();
+        }
+    </script>
+
+    <style>
+        .jumbo-style{
+            background-image: linear-gradient(to top right, orange , rgb(255, 0, 98));
+            min-height: 100vh;
+        }
+
+        .jumbotron{
+            display:flex;
+            align-content:center;
+            justify-items:center;
+            align-items:center;
+        }
+    </style>
+
+  </body>
+</html>
+
+
