@@ -16,12 +16,56 @@
         <div class="jumbotron jumbo-style .jumbotron-fluid">
             <div class="container">
                 <div class="row">
-                    <div class="col" id="informazioni">
+                    <div class="col">
+                        <p id="informazioni">
+                        </p>
                     </div>
-                    <div class="col" id="containerFoto">
-                        
+                    <div class="col">
+                        <p class="text-right" id="containerPulsante">
+                            <a class="btn btn-primary btn-lg" id="buttonIMG" role="button">
+                                Scegli le immagini
+                            </a>
+                        </p>
                     </div>
                 </div>
+
+                <!-- creazione di un modal -->
+                <div class="modal fade" id="modal1" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Scegli i post</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <div id="containerFoto" class="overflow1">
+                                </div>
+                                <hr class="my-4">
+                                <button type="button" class="btn btn-primary" onclick="salvaUrl()">Salva</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- modal warning cambia utente -->
+                <div class="modal fade" id="modalChangeUser" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center">
+                                    <h3 class="modal-title">ATTENZIONE</h3>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <h3><b>
+                                        Cambiando utente eliminerai tutti i dati salvati tra qui gli url delle immagini e il token d'accesso
+                                    </b></h3>
+                                    <hr class="my-4">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Annulla</button>
+                                    <button type="button" class="btn btn-danger" onclick="closeModalChangeUser();changeUser()">Continua</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -29,17 +73,87 @@
     <script>
         var url;
         var informazioni = document.getElementById("informazioni");
+        var containerPulsante = document.getElementById("containerPulsante");
         var containerFoto = document.getElementById("containerFoto");
+        var buttonIMG = document.getElementById("buttonIMG");
+        var data;
+
+        // prelevare 20 post recenti
+        getPostRecenti = function(){
+            scrElement = document.createElement( 'script' );
+            scrElement.setAttribute( 'src', 'https://api.instagram.com/v1/users/self/media/recent?access_token=' + localStorage.getItem("token") + '&count=20&callback=processPostRecenti' );
+            document.body.appendChild( scrElement );
+        }
+
+        nuovaColonna = function(data, indice){    
+            var stringa = '';
+            try{
+                if(data.type === 'image' || data.type === 'carousel')
+                {
+                    stringa += '<div class="col"><input type="checkbox" id="cb' + indice + '" /><label for="cb' + indice + '"><img src="' + data.images.low_resolution.url + '" width="150px" height="150px" /></label></div>';
+                }
+                return(stringa);
+            }
+            catch{
+                return('');
+            }
+        }
+
+        processPostRecenti = function( response ){
+            var content = '';
+            data = response.data;
+            if(data.length > 0){
+                for(var i=0;i<data.length;i+=2){
+                    var str = '<div class="row">';
+                    str += nuovaColonna(data[i], i);
+                    str += nuovaColonna(data[i+1], i+1);
+                    str += '</div></br>';
+                    content += str;
+                }
+            }
+            else{
+                content = '<h4>Non hai alcun post sul tuo account</h4>';
+            }
+            buttonIMG.addEventListener("click", openModal);
+            containerFoto.innerHTML = content;
+        }
+
+        openModal = function(){
+            $('#modal1').modal({backdrop: 'static'});
+        }
+
+        closeModal = function(){
+            $('#modal1').modal('hide');
+        }
+
+        openModalChangeUser = function(){
+            $('#modalChangeUser').modal({backdrop: 'static'});
+        }
+
+        closeModalChangeUser = function(){
+            $('#modalChangeUser').modal('hide');
+        }
 
         displayContenutiFirst = function(){
             informazioni.innerHTML = '<h3>Comincia subito!</h3><hr class="my-4"><p>Instagram</p>';
-            containerFoto.innerHTML = '<p class="text-right"><a class="btn btn-primary btn-lg" role="button" onclick="openWindowAccessInstagram()">'
-                + 'Scegli le immagini</a></p>';
+            buttonIMG.addEventListener("click", openWindowAccessInstagram);
+        }
+
+        // prelevare informazioni account
+        getInformationUser = function(){
+            scrElement = document.createElement( 'script' );
+            scrElement.setAttribute( 'src', 'https://api.instagram.com/v1/users/self?access_token=' + localStorage.getItem("token") + '&callback=processInformation' );
+            document.body.appendChild( scrElement );
+        }
+    
+        processInformation = function( response ) { 
+            informazioni.innerHTML = '<h2 class="titolo1">Utente:</h2></br><h3 class="nome">' + response.data.full_name + '</h3>'
+            + '<div><p><img class="rounded" src="' + response.data.profile_picture + '" width ="20%" height = "20%"></p></div>';
         }
 
         displayContenutiLogged = function(){
-            informazioni.innerHTML = "benvenuto " + localStorage.getItem("token");
-            containerFoto.innerHTML = '';
+            getInformationUser();
+            getPostRecenti();
         }
 
         openWindowAccessInstagram = function(){
@@ -49,6 +163,52 @@
             var top = (screen.height/2)-(h/2);
             window.open('https://www.instagram.com/oauth/authorize/?client_id=434de32ddd604865a4684abbe2eb60b2&redirect_uri=http://127.0.0.1:3000&response_type=token', 
             '_blank', 'width=' + w + ',height=' + h + ', top='+top+', left='+left);
+        }
+
+        salvaUrl = function(){
+            var listaUrl = [];
+            for(var i=0;i<data.length;i++){
+                try{
+                    if(document.getElementById("cb" + i).checked){
+                        listaUrl.push(data[i].images.low_resolution.url);
+                    }
+                }
+                catch{}    
+            }
+            localStorage.setItem("listaUrl", JSON.stringify(listaUrl));
+            closeModal();
+            showImgs();
+        }
+
+        changeUser = function(){
+            // logout
+            scrElement = document.createElement( 'script' );
+            scrElement.setAttribute( 'src', 'https://instagram.com/accounts/logout' );
+            scrElement.onload = openWindowAccessInstagram;
+            document.body.appendChild( scrElement );
+
+            // elimina il token e gli url delle immagini dal localStorage
+            localStorage.removeItem("token");
+            localStorage.removeItem("listaUrl");
+        }
+
+        showImgs = function(){
+            var content = '';
+            var listaUrl = JSON.parse(localStorage.getItem("listaUrl"));
+            for(var i=0;i<listaUrl.length;i+=2){
+                content += '<div class=row>';
+                if(listaUrl[i] !== undefined){
+                    content += '<div class="col"><img class="rounded" src="' + listaUrl[i] + '" width="200px" height="200px" /></div>';
+                }
+                if(listaUrl[i+1] !== undefined){
+                    content += '<div class="col"><img class="rounded" src="' + listaUrl[i+1] + '" width="200px" height="200px" /></div>';
+                }
+                content += '</div></br>';
+            }
+            content += '<button type="button" class="btn btn-primary" onclick="openModal()">Riseleziona immagini</button>&nbsp';
+            content += '<button type="button" class="btn btn-primary" onclick="openModalChangeUser()">Cambia utente</button>';
+            containerPulsante.innerHTML = content;
+            containerPulsante.className = 'text-center';
         }
 
         // start code
@@ -67,6 +227,13 @@
         }
         else{
             // E' memorizzato un token
+
+            if(localStorage.getItem("listaUrl") === null){
+                openModal();
+            }
+            else{
+                showImgs();
+            }
             displayContenutiLogged();
         }
     </script>
@@ -82,6 +249,74 @@
             align-content:center;
             justify-items:center;
             align-items:center;
+        }
+
+        .overflow1{
+            max-height: 200px;
+            overflow: auto;
+        }
+
+        .titolo1{
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .nome{
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input[type="checkbox"][id^="cb"] {
+            display: none;
+        }
+
+        label {
+            border: 1px solid #fff;
+            padding: 10px;
+            display: block;
+            position: relative;
+            margin: 10px;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        label::before {
+            background-color: white;
+            color: white;
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            border: 1px solid grey;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 28px;
+            transition-duration: 0.4s;
+            transform: scale(0);
+        }
+
+        :checked+label {
+            border-color: #ddd;
+        }
+
+        :checked+label::before {
+            content: "✓";
+            background-color: grey;
+            transform: scale(1);
+        }
+
+        :checked+label img {
+            transform: scale(0.9);
+            box-shadow: 0 0 5px #333;
+            z-index: -1;
         }
     </style>
 
