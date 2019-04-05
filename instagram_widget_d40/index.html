@@ -40,6 +40,22 @@
                                 </button>
                             </div>
                             <div class="modal-body text-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn search-panel">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span id="search_concept">Filtra foto per</span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a onclick='document.getElementById("search_concept").textContent = "Più like";'>Più like</a></li>
+                                            <li><a onclick='document.getElementById("search_concept").textContent = "Più commenti";'>Più commenti</a></li>
+                                        </ul>
+                                    </div>       
+                                    <input id="inputTag" type="text" class="form-control" placeholder="Cerca tag...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" onclick="searchBarFotoModal();"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
+                                </div>
+                                </br>
                                 <div id="containerFoto" class="overflow1">
                                 </div>
                                 <hr class="my-4">
@@ -48,6 +64,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- modal warning cambia utente -->
                 <div class="modal fade" id="modalChangeUser" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -77,6 +94,9 @@
         var containerFoto = document.getElementById("containerFoto");
         var buttonIMG = document.getElementById("buttonIMG");
         var data;
+        var inputTag = document.getElementById("inputTag");
+        var search_concept = document.getElementById("search_concept");
+        var search = false;
 
         // prelevare 20 post recenti
         getPostRecenti = function(){
@@ -86,13 +106,10 @@
         }
 
         nuovaColonna = function(data, indice){    
-            var stringa = '';
             try{
-                if(data.type === 'image' || data.type === 'carousel')
-                {
-                    stringa += '<div class="col"><input type="checkbox" id="cb' + indice + '" /><label for="cb' + indice + '"><img src="' + data.images.low_resolution.url + '" width="150px" height="150px" /></label></div>';
+                if(data.type === 'image' || data.type === 'carousel'){
+                    return('<div class="col"><input type="checkbox" id="cb' + indice + '" /><label for="cb' + indice + '"><img src="' + data.images.low_resolution.url + '" width="150px" height="150px" /></label></div>');
                 }
-                return(stringa);
             }
             catch{
                 return('');
@@ -102,20 +119,25 @@
         processPostRecenti = function( response ){
             var content = '';
             data = response.data;
-            if(data.length > 0){
-                for(var i=0;i<data.length;i+=2){
-                    var str = '<div class="row">';
-                    str += nuovaColonna(data[i], i);
-                    str += nuovaColonna(data[i+1], i+1);
-                    str += '</div></br>';
-                    content += str;
+            if(!search){
+                if(data.length > 0){
+                    for(var i=0;i<data.length;i+=2){
+                        var str = '<div class="row">';
+                        str += nuovaColonna(data[i], i);
+                        str += nuovaColonna(data[i+1], i+1);
+                        str += '</div></br>';
+                        content += str;
+                    }
                 }
+                else{
+                    content = '<h4>Nessun post trovato</h4>';
+                }
+                buttonIMG.addEventListener("click", openModal);
+                containerFoto.innerHTML = content;
             }
             else{
-                content = '<h4>Non hai alcun post sul tuo account</h4>';
+                search = false;
             }
-            buttonIMG.addEventListener("click", openModal);
-            containerFoto.innerHTML = content;
         }
 
         openModal = function(){
@@ -211,12 +233,38 @@
             containerPulsante.className = 'text-center';
         }
 
+        searchBarFotoModal = function(){
+            if(data.length > 0){
+                var dataUpdated = {data:[]};
+                var indice=0;
+                if(inputTag.value !== ''){
+                    for(var i=0;i<data.length;i++){
+                        for(var j=0;j<Object.keys(data[i].tags).length;j++){
+                            if(data[i].tags[j].startsWith(inputTag.value)){
+                                dataUpdated["data"][indice] = {};
+                                dataUpdated["data"][indice]["type"] = "image";
+                                dataUpdated["data"][indice]["images"] = {};
+                                dataUpdated["data"][indice]["images"]["low_resolution"] = {};
+                                dataUpdated["data"][indice]["images"]["low_resolution"]["url"] = data[i].images.low_resolution.url;
+                                indice+=1;
+                                // serve per non mettere più di una immagine
+                                break;
+                            }
+                        }
+                    }
+                    processPostRecenti(dataUpdated);
+                    search = true;
+                }
+            }
+            getPostRecenti();
+        }
+
         // start code
 
         if(localStorage.getItem("token") === null){
             // Non è memorizzato alcun token
             displayContenutiFirst();
-
+            
             url = window.location.hash.split('=');
             if(url[1] !== undefined){
                 // L'utente ha effettuato l'accesso, memorizzo il token e chiudo la finestra per l'accesso a instagram
