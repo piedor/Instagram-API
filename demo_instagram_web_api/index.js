@@ -13,7 +13,7 @@ server.listen(port, hostname, function() {
   console.log('Server running at http://'+ hostname + ':' + port + '/');
 });
 
-
+const Instagram = require('instagram-web-api')
 const { username, password } = process.env
 
 const client = new Instagram({ username:'', password:'' })
