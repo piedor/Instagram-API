@@ -94,9 +94,9 @@
         var containerFoto = document.getElementById("containerFoto");
         var buttonIMG = document.getElementById("buttonIMG");
         var data;
+        var dataOriginal;
         var inputTag = document.getElementById("inputTag");
         var search_concept = document.getElementById("search_concept");
-        var search = false;
 
         // prelevare 20 post recenti
         getPostRecenti = function(){
@@ -117,27 +117,30 @@
         }
 
         processPostRecenti = function( response ){
-            var content = '';
-            data = response.data;
-            if(!search){
-                if(data.length > 0){
-                    for(var i=0;i<data.length;i+=2){
-                        var str = '<div class="row">';
-                        str += nuovaColonna(data[i], i);
-                        str += nuovaColonna(data[i+1], i+1);
-                        str += '</div></br>';
-                        content += str;
-                    }
-                }
-                else{
-                    content = '<h4>Nessun post trovato</h4>';
-                }
-                buttonIMG.addEventListener("click", openModal);
-                containerFoto.innerHTML = content;
+            var callerName = new String;
+            callerName = arguments.callee.caller ? arguments.callee.caller.name : "global";
+            if(callerName === "global"){
+                dataOriginal = response;
+                data = dataOriginal.data;
             }
             else{
-                search = false;
+                data = response.data;
             }
+            var content = '';
+            if(data.length > 0){
+                for(var i=0;i<data.length;i+=2){
+                    var str = '<div class="row">';
+                    str += nuovaColonna(data[i], i);
+                    str += nuovaColonna(data[i+1], i+1);
+                    str += '</div></br>';
+                    content += str;
+                }
+            }
+            else{
+                content = '<h4>Nessun post trovato</h4>';
+            }
+            buttonIMG.addEventListener("click", openModal);
+            containerFoto.innerHTML = content;
         }
 
         openModal = function(){
@@ -233,7 +236,35 @@
             containerPulsante.className = 'text-center';
         }
 
+        ordinaData = function(dati){
+            var stringa = dati;
+            var tipo;
+            if(search_concept.textContent === "Più like"){
+                tipo = "likes"
+            }
+            else if(search_concept.textContent === "Più commenti"){
+                tipo = "comments"
+            }
+            
+            if(tipo !== undefined){
+                if(stringa.data.length > 0){
+                    for(var i=0;i<stringa.data.length;i++){
+                        for(var j=i;j<stringa.data.length;j++){
+                            if(stringa.data[j][tipo].count > stringa.data[i][tipo].count){
+                                // swap
+                                var temp = stringa.data[i];
+                                stringa.data[i] = stringa.data[j];
+                                stringa.data[j] = temp;
+                            }
+                        }
+                    }
+                }
+            }
+            return(stringa);
+        }
+
         searchBarFotoModal = function(){
+            data = dataOriginal.data;
             if(data.length > 0){
                 var dataUpdated = {data:[]};
                 var indice=0;
@@ -246,17 +277,24 @@
                                 dataUpdated["data"][indice]["images"] = {};
                                 dataUpdated["data"][indice]["images"]["low_resolution"] = {};
                                 dataUpdated["data"][indice]["images"]["low_resolution"]["url"] = data[i].images.low_resolution.url;
+                                dataUpdated["data"][indice]["comments"] = {};
+                                dataUpdated["data"][indice]["comments"]["count"] = data[i].comments.count;
+                                dataUpdated["data"][indice]["likes"] = {};
+                                dataUpdated["data"][indice]["likes"]["count"] = data[i].likes.count;
                                 indice+=1;
-                                // serve per non mettere più di una immagine
+                                // serve per non mettere più di un' immagine
                                 break;
                             }
                         }
                     }
+                    dataUpdated = ordinaData(dataUpdated);
                     processPostRecenti(dataUpdated);
-                    search = true;
+                }
+                else{
+                    dataOriginal = ordinaData(dataOriginal);
+                    processPostRecenti(dataOriginal);
                 }
             }
-            getPostRecenti();
         }
 
         // start code
