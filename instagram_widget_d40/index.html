@@ -106,14 +106,15 @@
         }
 
         nuovaColonna = function(data, indice){    
+            var str = '';
             try{
                 if(data.type === 'image' || data.type === 'carousel'){
-                    return('<div class="col"><input type="checkbox" id="cb' + indice + '" /><label for="cb' + indice + '"><img src="' + data.images.low_resolution.url + '" width="150px" height="150px" /></label></div>');
+                    str = '<div class="col"><input type="checkbox" id="cb' + indice + '" /><label for="cb' + indice + '"><img src="' + data.images.low_resolution.url + '" width="150px" height="150px" /></label></div>';
                 }
             }
             catch{
-                return('');
             }
+            return(str);
         }
 
         processPostRecenti = function( response ){
