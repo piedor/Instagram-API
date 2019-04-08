@@ -1,6 +1,5 @@
 const http = require('http');
 var fs = require('fs');
-var Instagram = require('instagram-web-api');
 const hostname = '127.0.0.1';
 var index = fs.readFileSync('index.html');
 const port = 3000;
