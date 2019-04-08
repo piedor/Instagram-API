@@ -1,0 +1,19 @@
+{
+  "name": "demo_instagram_web_api",
+  "version": "1.0.0",
+  "description": "npm install instagram-web-api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "instagram-web-api": "^2.0.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^11.12.1",
+    "ava": "^1.4.1"
+  }
+}
