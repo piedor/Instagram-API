@@ -49,7 +49,7 @@ Node js è stato utilizzato per eseguire un file js che crea e si mette in ascol
 
 ## Problemi
 
-* A partire dall'11 dicembre 2018 è possibile svolgere solo le funzioni di base (elencate sopra) quindi è necessario utilizzare le instagram graph api(vedi demo_instagram_graph_api)
+* A partire dall'11 dicembre 2018 è possibile svolgere solo le funzioni di base (elencate sopra) poichè le api di instagram sono state sostituite dalle graph api di facebook e necessitano di un business account, è più conveninte utilizzare un plugin in javascript come [instagram web api](https://github.com/jlobos/instagram-web-api).
 
 * Per poter generare il token, tramite l'applicazione, di diversi utenti che non siano solo quelli registrati alla sandbox di un API client è necessario rivisionare i permessi e rispondere a delle domande di utilizzo che verranno poi valutate da instagram.
 
