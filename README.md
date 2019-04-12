@@ -4,19 +4,47 @@
 
 #### Pro
 
+* Get Information user logged
+
+* Get media logged user (max 20)
+
+* Get media information (such as n. comments, likes, hashtags exc..)
+
+* Get list of comments of each media
+
 #### Con
+
+* Can't search public content or users
+
+* Can't get more than 20 media of logged user
+
+* Can't get the media created after 2020
 
 ### Use instagram graph API (ufficial from facebook)
 
 #### Pro
 
+* You can do everything you could do with instagram api before December 11, 2018
+
 #### Con
+
+* You must have a instagram and facebook business account
+
+* You must have a lot of permissions from facebook by submit your app many times for review
 
 ### Use instagram web API (are used in ufficial web site instagram)
 
 #### Pro
 
+* Get public media by hashtag and location id without login
+
+* Get public users and who you follow
+
+* All functions provided by the instagram website
+
 #### Con
+
+* to be defined
 
 ## Riepilogo settimane stage
 
