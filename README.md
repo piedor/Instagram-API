@@ -1,22 +1,22 @@
-# All methods to implement instagram in your website
+## All methods to implement instagram in your website
 
-## Use instagram API (ufficial from instagram)
+### Use instagram API (ufficial from instagram)
 
-1. Pro
+#### Pro
 
-2. Con
+#### Con
 
-## Use instagram graph API (ufficial from facebook)
+### Use instagram graph API (ufficial from facebook)
 
-1. Pro
+#### Pro
 
-2. Con
+#### Con
 
-## Use instagram web API (are used in ufficial web site instagram)
+### Use instagram web API (are used in ufficial web site instagram)
 
-1. Pro
+#### Pro
 
-2. Con
+#### Con
 
 ## Riepilogo settimane stage
 
