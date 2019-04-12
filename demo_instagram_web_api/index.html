@@ -18,13 +18,13 @@
                 <div class="input-group">
                     <input id="inputTag" type="text" class="form-control" placeholder="Cerca tag...">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick='showImgByUrls(getMediaByHashtag(document.getElementById("inputTag").value));'>
+                        <button class="btn btn-default" type="button" onclick='index=1;endCursor="";showImgByUrls(getMediaByHashtag(document.getElementById("inputTag").value));'>
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
                     <input id="inputLocation" type="text" class="form-control" placeholder="Cerca locationId...">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick='showImgByUrls(getMediaByLocationId(document.getElementById("inputLocation").value));'>
+                        <button class="btn btn-default" type="button" onclick='index=1;endCursor="";showImgByUrls(getMediaByLocationId(document.getElementById("inputLocation").value));'>
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
@@ -50,13 +50,22 @@
                 var str='';
                 for(var i=0;i<listaUrl.length;i+=4){
                     str+= '<div class="row">';
-                    str+=nuovaColonna(listaUrl[i]);
-                    str+=nuovaColonna(listaUrl[i+1]);
-                    str+=nuovaColonna(listaUrl[i+2]);
-                    str+=nuovaColonna(listaUrl[i+3]);
-                    str+="</div>";
+                    if(listaUrl[i] !== undefined){
+                        str+=nuovaColonna(listaUrl[i]);
+                    }
+                    if(listaUrl[i+1] !== undefined){
+                        str+=nuovaColonna(listaUrl[i+1]);
+                    }
+                    if(listaUrl[i+2] !== undefined){
+                        str+=nuovaColonna(listaUrl[i+2]);
+                    }
+                    if(listaUrl[i+3] !== undefined){
+                        str+=nuovaColonna(listaUrl[i+3]);
+                    }
+                    str+='</div>';
                 }
                 containerFoto.innerHTML = str;
+                containerFoto.innerHTML += aNext;
             }
         </script>
     </body>
