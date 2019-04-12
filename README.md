@@ -1,10 +1,9 @@
 # Settimana 1
 
-Progetti modificati: demo_instagram_api, demo_instagram_web_api.
+Progetti modificati: demo_instagram_api.
 
 Trovare soluzioni per interfacciare instagram con i siti web in particolare approfondire le instagram api.
 Le instagram api permettono poche funzionalità infattono non permettono di ricercare contenuti pubblici ma soltanto di visualizzare informazioni e post del profilo loggato.
-In rete è disponibile un plugin in javascript [instagram web api](https://github.com/jlobos/instagram-web-api) che permette di avere molte più funzionalità(non concluso).
 
 # Settimana 2
 
@@ -15,6 +14,9 @@ Inoltre gli url delle immagini e il token dovranno essere memorizzati nel local 
 
 # Settimana 3
 
-Progetti modificati: instagram_widget_d40.
+Progetti modificati: instagram_widget_d40, demo_instagram_graph_api, demo_instagram_web_api.
 
 Permettere all'utente nel widget di instagram di ricercare le foto per hashtag e di filtrarle per numero di commenti e like.
+Creare un plugin in javascript che utilizzi le instagram web api, queste infatti consentono di visualizzare contenuti pubblici.
+Implementare le instagram graph api.
+
