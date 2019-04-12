@@ -47,6 +47,14 @@ Di solito vengono usate dalle applicazioni web e per smartphone grazie ai lingua
 
 Node js è stato utilizzato per eseguire un file js che crea e si mette in ascolto su un server con indirizzo http://127.0.0.1:3000 in locale che ad ogni richiesta invia al client il file index.html.
 
+## Esecuzione
+
+* aprire cmd.
+
+* eseguire node server.js.
+
+* collegarsi alla pagina http://127.0.0.1:3000.
+
 ## Problemi
 
 * A partire dall'11 dicembre 2018 è possibile svolgere solo le funzioni di base (elencate sopra) poichè le api di instagram sono state sostituite dalle graph api di facebook e necessitano di un business account, è più conveninte utilizzare un plugin in javascript come [instagram web api](https://github.com/jlobos/instagram-web-api).
