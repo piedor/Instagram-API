@@ -4,6 +4,6 @@ Inoltre l'access token e gli url delle immagini sono memorizzate nel local stora
 
 ## Implementazioni future
 
-* Poter prelevare più di 20 foto dal profilo dell'utente utilizzando il plugin in javascript [instagram web api](https://github.com/jlobos/instagram-web-api).
+* Poter prelevare più di 20 foto dal profilo dell'utente utilizzando le instagram web api.
 
-* Far accedere un utente che non sia registrato al sandbox dell' api client (vedi soluzioni nel README in demo_instagram_api).
+* Autocompletamento della ricerca per tag e far visualizzare il numero di commenti o like quando si filtrano i contenuti.
