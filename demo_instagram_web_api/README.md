@@ -7,14 +7,14 @@ Per questo ho preso spunto da diversi progetti di github tra qui [instagram web 
 
 ### Non richiede login a instagram
 
-    * Ricerca media per hashtag
+* Ricerca media per hashtag
 
-    * Ricerca media per location id
+* Ricerca media per location id
 
-    * Informazioni dell'account per account id
+* Informazioni dell'account per account id
 
 ### Richiede login a instagram
 
-    * Ricerca media per username e account id
+* Ricerca media per username e account id
 
 ## NON FINITO
