@@ -1,22 +1,28 @@
-# Settimana 1
+## Documentazione
 
-Progetti modificati: demo_instagram_api.
+Online non si trova alcuna documentazione su queste web api ma queste vengono utilizzate dalla maggior parte dei plugin che consentono di creare un bot di instagram.
+Per questo ho preso spunto da diversi progetti di github tra qui [instagram web api](https://github.com/jlobos/instagram-web-api) e [instabot py](https://github.com/instabot-py) per creare il mio plugin in javascript.
+Solo dopo ho scoperto che sono state create per il sito ufficiale di instagram e bastava semplicemente vedere come è stato scritto!!! :joy: :smile:
 
-Trovare soluzioni per interfacciare instagram con i siti web in particolare approfondire le instagram api.
-Le instagram api permettono poche funzionalità infattono non permettono di ricercare contenuti pubblici ma soltanto di visualizzare informazioni e post del profilo loggato.
+## Funzionalità
 
-# Settimana 2
+### Il numero di media è infinito
 
-Progetti modificati: instagram_widget_d40.
+### Non richiede login a instagram
 
-Implementare un esempio per la demo di destinazione 4.0 in cui l'utente possa creare un widget di instagram, loggarsi e scegliere dalle foto del suo account quali far vedere all'interno di esso. Sono sufficienti le instagram api.
-Inoltre gli url delle immagini e il token dovranno essere memorizzati nel local storage del browser.
+* Ricerca media per hashtag
 
-# Settimana 3
+* Ricerca media per location id
 
-Progetti modificati: instagram_widget_d40, demo_instagram_graph_api, demo_instagram_web_api.
+* Informazioni dell'account per account id pubblico
 
-Permettere all'utente nel widget di instagram di ricercare le foto per hashtag e di filtrarle per numero di commenti e like.
-Creare un plugin in javascript che utilizzi le instagram web api, queste infatti consentono di visualizzare contenuti pubblici.
-Implementare le instagram graph api.
+### Richiede login a instagram
 
+* Ricerca media per username e account id pubblico o che si segue
+
+
+## Come sapere il location id 
+
+1. Entrare in instagram e cercare il luogo interessato
+
+2. L'url dove si verrà indirizzati sarà il seguente: w<span>ww</span>.instagram.com/explore/locations/**location id**/**nome luogo**/
