@@ -24,4 +24,4 @@ Per questo ho preso spunto da diversi progetti di github tra qui [instagram web 
 
 1. Entrare in instagram e cercare il luogo interessato
 
-2. L'url dove si verrà indirizzati sarà il seguente: www.instagram.com/explore/locations/**location id**/**nome luogo**/
+2. L'url dove si verrà indirizzati sarà il seguente: www.instagram.com\explore\locations\\**location id**\\**nome luogo**\
