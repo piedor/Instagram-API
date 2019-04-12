@@ -2,6 +2,7 @@
 
 Online non si trova alcuna documentazione su queste web api ma queste vengono utilizzate dalla maggior parte dei plugin che consentono di creare un bot di instagram.
 Per questo ho preso spunto da diversi progetti di github tra qui [instagram web api](https://github.com/jlobos/instagram-web-api) e [instabot py](https://github.com/instabot-py) per creare il mio plugin in javascript.
+Solo dopo ho scoperto che sono state create per il sito ufficiale di instagram e bastava semplicemente vedere come è stato scritto!!! :joy: :smile:
 
 ## Funzionalità
 
