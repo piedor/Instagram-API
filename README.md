@@ -2,21 +2,21 @@
 
 1. Use instagram API (ufficial from instagram)
 
-### Pro
+    1. Pro
 
-### Con
+    2. Con
 
 2. Use instagram graph API (ufficial from facebook)
 
-### Pro
+    1. Pro
 
-### Con
+    2. Con
 
 3. Use instagram web API (are used in ufficial web site instagram)
 
-### Pro
+    1. Pro
 
-### Con
+    2. Con
 
 ## Riepilogo settimane stage
 
