@@ -5,16 +5,23 @@ Per questo ho preso spunto da diversi progetti di github tra qui [instagram web 
 
 ## Funzionalità
 
+### Il numero di media è infinito
+
 ### Non richiede login a instagram
 
 * Ricerca media per hashtag
 
 * Ricerca media per location id
 
-* Informazioni dell'account per account id
+* Informazioni dell'account per account id pubblico
 
 ### Richiede login a instagram
 
-* Ricerca media per username e account id
+* Ricerca media per username e account id pubblico o che si segue
 
-## NON FINITO
+
+## Come sapere il location id 
+
+1. Entrare in instagram e cercare il luogo interessato
+
+2. L'url dove si verrà indirizzati sarà il seguente: w<span>ww</span>.instagram.com/explore/locations/**location id**/**nome luogo**/
